@@ -156,7 +156,7 @@ var rechner = (function (rechner) {
 
             console.log("input type " + inputType);
 
-            if (inputType == inputEnum.Decimal && (decimalInputID.val() < Math.pow(2, $inputGroupSelectBit.val()))) {
+            if (inputType == inputEnum.Decimal && (decimalInputID.val() < Math.pow(3, $inputGroupSelectBit.val()))) {
                 trinaryInputID.val(float64ToInt64Trinary(decimalInputID.val()).substr(pos_to_neg($inputGroupSelectBit.val())));
                 systemInputID.val(intToSystem(decimalInputID.val()));
             } else if (inputType == inputEnum.Trinary || inputType == inputEnum.FunctionalButton) {
@@ -168,9 +168,9 @@ var rechner = (function (rechner) {
             } else {
                 // TODO: Signed Function
                 //if (signed) {
-                //    alert("Error: Only Numbers Between " + pos_to_neg((Math.pow(2, $inputGroupSelectBit.val()) / 2)) + " and " + ((Math.pow(2, $inputGroupSelectBit.val()) / 2 ) - 1) + " can be converted to " + $inputGroupSelectBit.val() + "-Bit");
+                //    alert("Error: Only Numbers Between " + pos_to_neg((Math.pow(3, $inputGroupSelectBit.val()) / 2)) + " and " + ((Math.pow(3, $inputGroupSelectBit.val()) / 2 ) - 1) + " can be converted to " + $inputGroupSelectBit.val() + "-Bit");
                 //} else {
-                alert("Error: Only Numbers Between 0 and " + Math.pow(2, $inputGroupSelectBit.val()) + " can be converted to " + $inputGroupSelectBit.val() + "-Bit");
+                alert("Error: Only Numbers Between 0 and " + Math.pow(3, $inputGroupSelectBit.val()) + " can be converted to " + $inputGroupSelectBit.val() + "-Bit");
                 //}
                 trinaryInputID.val("");
             }
@@ -462,7 +462,7 @@ var rechner = (function (rechner) {
             if ($operand1Trinary.val() != "" && $operand2Trinary.val() != "") {
 
                 // if the Result is higher than the maximum allowed Bits (ex. 2^16 = 65536), give more space for the result
-                if ((trinaryToInt(trinaryInputID.val()) + trinaryToInt(trinaryInputID2.val())) > (Math.pow(2, $inputGroupSelectBit.val()) - 1)) {
+                if ((trinaryToInt(trinaryInputID.val()) + trinaryToInt(trinaryInputID2.val())) > (Math.pow(3, $inputGroupSelectBit.val()) - 1)) {
                     $resultTrinary.val(float64ToInt64Trinary(trinaryToInt(trinaryInputID.val()) + trinaryToInt(trinaryInputID2.val())).substr(pos_to_neg((Number($inputGroupSelectBit.val()) + Number($inputGroupSelectBit.val())))));
                 } else {
                     $resultTrinary.val(float64ToInt64Trinary(trinaryToInt(trinaryInputID.val()) + trinaryToInt(trinaryInputID2.val())).substr(pos_to_neg((Number($inputGroupSelectBit.val())))));
@@ -487,7 +487,7 @@ var rechner = (function (rechner) {
             if ($operand1Trinary.val() != "" && $operand2Trinary.val() != "") {
 
                 // if the Result is higher than the maximum allowed Bits (ex. 2^16 = 65536), give more space for the result
-                if ((trinaryToInt(trinaryInputID.val()) * trinaryToInt(trinaryInputID2.val())) > (Math.pow(2, $inputGroupSelectBit.val()) - 1)) {
+                if ((trinaryToInt(trinaryInputID.val()) * trinaryToInt(trinaryInputID2.val())) > (Math.pow(3, $inputGroupSelectBit.val()) - 1)) {
                     $resultTrinary.val(float64ToInt64Trinary(trinaryToInt(trinaryInputID.val()) * trinaryToInt(trinaryInputID2.val())).substr(pos_to_neg((Number($inputGroupSelectBit.val()) + Number($inputGroupSelectBit.val())))));
                 } else {
                     $resultTrinary.val(float64ToInt64Trinary(trinaryToInt(trinaryInputID.val()) * trinaryToInt(trinaryInputID2.val())).substr(pos_to_neg((Number($inputGroupSelectBit.val())))));
