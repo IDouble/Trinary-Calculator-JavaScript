@@ -9,8 +9,6 @@
 Feel free to use the **Calculator** for teaching Numeral systems as an example.
 If you have Suggestions or find Errors, you're free to contact me on GitHub or submit your changes.
 The Reason why I build this **Calculator** was, because there wasn't a good one on the Web.
-The next Project will be a ternary **Calculator** for ternary calculations with trytes and trits,
-this will be a perfect template to create such one.
 ## [📱 Mobile (Smartphone): 📱](https://ayidouble.github.io/Trinary-Calculator-JavaScript)
 ![Trinary Calculator Addition Subtraction Multiplication Division NOT AND OR XOR Mobile (Smartphone)](Images/Trinary-Calculator-v1-Mobile-Image.png)
 ![Trinary Calculator Addition Subtraction Multiplication Division NOT AND OR XOR Mobile (Smartphone)](Images/Trinary-Calculator-Android_1.png)
@@ -37,22 +35,14 @@ this will be a perfect template to create such one.
 - **\* (Multiplication)**
 - **\/ (Division)**
 
-- **! (NOT)** ex. ! 10101010 = 01010101
-- **<< (Bitwise Left Shift)** ex. 1010 << 0101
-- **\>\> (Bitwise Right Shift)** ex. 1010 >> 0101
-
-- **AND / NAND**
-- **OR / NOR**
-- **XOR / XNOR**
-
 ## As efficient as possible ⚙️
 
 The **Calculator** is designed to give responses on every action,
-this is noticeable as an example at the addition of two Bytes,
+this is noticeable as an example at the addition of two Trytes,
 while you're typing, an algorithm already calculates every number you type and displays the result.
 
 ## The Calculator allows you to ⛓
 
-- see how Hexdecimal Values are stored in Trinary (ex. HTML Color Codes RGB(**255**, **255**, **255**) = RGB(**8-Bit**, **8-Bit**, **8-Bit**))
-- how much **8, 16, 32 Bit** can store, (ex. unsigned **8-Bit** can store values from **(00000000) 0 ... 255 (11111111)**)
+- see how Hexdecimal Values are stored in Trinary
+- how much **8, 16, 32 Trit** can store, (ex. unsigned **8-Trit** can store values from **(00000000) 0 ... 6561 (22222222)**)
 - see how other numeral systems are working (**ternary**, **quaternary**, **octal**, **hexdecimal**)
