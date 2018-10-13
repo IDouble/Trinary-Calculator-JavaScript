@@ -327,7 +327,7 @@ var rechner = (function (rechner) {
         // logic trinary to decimal
 
         function trinaryToInt(trinary) {
-            return parseInt(trinary, 2);
+            return parseInt(trinary, 3);
         }
 
         // logic decimal to trinary
@@ -347,7 +347,7 @@ var rechner = (function (rechner) {
 
                 // generate padded trinary string a word at a time
                 for (var word = 0; word < 4; word++) {
-                    bin64 = uint16[word].toString(2).padStart(16, 0) + bin64
+                    bin64 = uint16[word].toString(3).padStart(16, 0) + bin64
                 }
 
                 return bin64
@@ -363,7 +363,7 @@ var rechner = (function (rechner) {
 
                 // shortcut using other answer for sufficiently small range
                 if (Math.abs(number) <= MAX_INT32) {
-                    return (number >>> 0).toString(2).padStart(64, sign)
+                    return (number >>> 0).toString(3).padStart(64, sign)
                 }
 
                 // little endian byte ordering
