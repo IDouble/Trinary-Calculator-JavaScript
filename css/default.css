@@ -151,11 +151,11 @@ a:active {
 }
 
 .color-1 {
-	background: rgba(0,0,0,0.85);
+	background: rgba(75,80,86,0.85);
 }
 
 .color-2 {
-	background: rgba(0,0,0,1);
+	background: rgba(75,80,86,1);
 }
 
 .color-3 {
@@ -285,7 +285,7 @@ a:active {
 .optionsBox{
     padding-top:20px !important;
     padding-bottom:20px !important;
-    background-color: rgba(0 , 0, 0, 0.7) !important;
+    background-color: rgba(75,80,86, 0.7) !important;
 }
 
 .optionsBox h1{
