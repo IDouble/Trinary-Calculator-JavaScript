@@ -340,7 +340,7 @@ a:active {
         display: none !important;
     }
 
-    .binaryInputs {
+    .trinaryInputs {
       border-radius: 5px !important;
     }
 
@@ -418,7 +418,7 @@ a:active {
     box-shadow: 0 6px rgba(0 , 0, 0, 0.7);
 }
 
-.inputs .binaryInputs{
+.inputs .trinaryInputs{
     font-size:1rem !important;
 }
 

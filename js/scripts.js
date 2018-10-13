@@ -11,7 +11,7 @@ var rechner = (function (rechner) {
 
         var inputEnum = {
             Decimal: 1,
-            Binary: 2,
+            Trinary: 2,
             System: 3,
             FunctionalButton: 4,
         };
@@ -35,7 +35,7 @@ var rechner = (function (rechner) {
         var $operand1DecimalPlus = $('#operand1DecimalPlus');
         var $operand1DecimalMinus = $('#operand1DecimalMinus');
 
-        var $operand1Binary = $('#operand1Binary');
+        var $operand1Trinary = $('#operand1Trinary');
         var $operand1NOT = $('#operand1NOT');
         var $operand1LEFTSHIFT = $('#operand1LEFTSHIFT');
         var $operand1RIGHTSHIFT = $('#operand1RIGHTSHIFT');
@@ -48,7 +48,7 @@ var rechner = (function (rechner) {
         var $operand2DecimalPlus = $('#operand2DecimalPlus');
         var $operand2DecimalMinus = $('#operand2DecimalMinus');
 
-        var $operand2Binary = $('#operand2Binary');
+        var $operand2Trinary = $('#operand2Trinary');
         var $operand2NOT = $('#operand2NOT');
         var $operand2LEFTSHIFT = $('#operand2LEFTSHIFT');
         var $operand2RIGHTSHIFT = $('#operand2RIGHTSHIFT');
@@ -60,7 +60,7 @@ var rechner = (function (rechner) {
         var $resultDecimal = $('#resultDecimal');
         var $resultCopy = $('#resultCopy');
 
-        var $resultBinary = $('#resultBinary');
+        var $resultTrinary = $('#resultTrinary');
 
         var $resultSystem = $('#resultSystem');
 
@@ -91,13 +91,13 @@ var rechner = (function (rechner) {
 
             // Init Input Change Listener
 
-            inputChangeListener($operand1Decimal, $operand1Binary, $operand1System);
-            inputChangeListener($operand2Decimal, $operand2Binary, $operand2System);
+            inputChangeListener($operand1Decimal, $operand1Trinary, $operand1System);
+            inputChangeListener($operand2Decimal, $operand2Trinary, $operand2System);
 
             // Init Input Spinner
 
-            inputSpinner($operand1Decimal, $operand1Binary, $operand1System, $operand1DecimalPlus, $operand1DecimalMinus);
-            inputSpinner($operand2Decimal, $operand2Binary, $operand2System, $operand2DecimalPlus, $operand2DecimalMinus);
+            inputSpinner($operand1Decimal, $operand1Trinary, $operand1System, $operand1DecimalPlus, $operand1DecimalMinus);
+            inputSpinner($operand2Decimal, $operand2Trinary, $operand2System, $operand2DecimalPlus, $operand2DecimalMinus);
 
             // Init Copy Button & Input Formats
 
@@ -109,7 +109,7 @@ var rechner = (function (rechner) {
                 delimiter: "'"
             });
 
-            $(".binaryInputs").keydown(function (e) {
+            $(".trinaryInputs").keydown(function (e) {
                 // Allow: backspace, delete
                 if ($.inArray(e.keyCode, [46, 8]) !== -1 ||
                     // Allow: Ctrl+A, Command+A
@@ -129,7 +129,7 @@ var rechner = (function (rechner) {
 
         Init();
 
-        function inputSpinner(decimalInputID, binaryInputID, systemInputID, spinnerPlusID, spinnerMinusID) {
+        function inputSpinner(decimalInputID, trinaryInputID, systemInputID, spinnerPlusID, spinnerMinusID) {
             (function ($) {
                 spinnerPlusID.on('click', function () {
                     if (decimalInputID.val() === '' || decimalInputID.val() == 'NaN') {
@@ -137,7 +137,7 @@ var rechner = (function (rechner) {
                     } else {
                         decimalInputID.val(parseInt(decimalInputID.val(), 10) + 1);
                     }
-                    updateAll(decimalInputID, binaryInputID, systemInputID, inputEnum.Decimal);
+                    updateAll(decimalInputID, trinaryInputID, systemInputID, inputEnum.Decimal);
                 });
                 spinnerMinusID.on('click', function () {
                     if (decimalInputID.val() === '' || decimalInputID.val() == 'NaN') {
@@ -145,26 +145,26 @@ var rechner = (function (rechner) {
                     } else {
                         decimalInputID.val(parseInt(decimalInputID.val(), 10) - 1);
                     }
-                    updateAll(decimalInputID, binaryInputID, systemInputID, inputEnum.Decimal);
+                    updateAll(decimalInputID, trinaryInputID, systemInputID, inputEnum.Decimal);
                 });
             })(jQuery);
         }
 
         // logical logic
 
-        function updateAll(decimalInputID, binaryInputID, systemInputID, inputType) {
+        function updateAll(decimalInputID, trinaryInputID, systemInputID, inputType) {
 
             console.log("input type " + inputType);
 
             if (inputType == inputEnum.Decimal && (decimalInputID.val() < Math.pow(2, $inputGroupSelectBit.val()))) {
-                binaryInputID.val(float64ToInt64Binary(decimalInputID.val()).substr(pos_to_neg($inputGroupSelectBit.val())));
+                trinaryInputID.val(float64ToInt64Trinary(decimalInputID.val()).substr(pos_to_neg($inputGroupSelectBit.val())));
                 systemInputID.val(intToSystem(decimalInputID.val()));
-            } else if (inputType == inputEnum.Binary || inputType == inputEnum.FunctionalButton) {
-                decimalInputID.val(binaryToInt(binaryInputID.val()));
+            } else if (inputType == inputEnum.Trinary || inputType == inputEnum.FunctionalButton) {
+                decimalInputID.val(trinaryToInt(trinaryInputID.val()));
                 systemInputID.val(intToSystem(decimalInputID.val()));
             } else if (inputType == inputEnum.System) {
                 decimalInputID.val(systemToInt(systemInputID.val()));
-                binaryInputID.val(float64ToInt64Binary(systemToInt(systemInputID.val())).substr(pos_to_neg($inputGroupSelectBit.val())));
+                trinaryInputID.val(float64ToInt64Trinary(systemToInt(systemInputID.val())).substr(pos_to_neg($inputGroupSelectBit.val())));
             } else {
                 // TODO: Signed Function
                 //if (signed) {
@@ -172,31 +172,31 @@ var rechner = (function (rechner) {
                 //} else {
                 alert("Error: Only Numbers Between 0 and " + Math.pow(2, $inputGroupSelectBit.val()) + " can be converted to " + $inputGroupSelectBit.val() + "-Bit");
                 //}
-                binaryInputID.val("");
+                trinaryInputID.val("");
             }
 
             // Active Functional Button logic
             if (inputType != inputEnum.FunctionalButton) {
                 if ($addBtn.hasClass("active")) {
-                    binaryAddition($operand1Binary, $operand2Binary);
+                    trinaryAddition($operand1Trinary, $operand2Trinary);
                 }
                 else if ($subBtn.hasClass("active")) {
-                    binarySubtraction($operand1Binary, $operand2Binary);
+                    trinarySubtraction($operand1Trinary, $operand2Trinary);
                 }
                 else if ($mulBtn.hasClass("active")) {
-                    binaryMultiplication($operand1Binary, $operand2Binary);
+                    trinaryMultiplication($operand1Trinary, $operand2Trinary);
                 }
                 else if ($divBtn.hasClass("active")) {
-                    binaryDivision($operand1Binary, $operand2Binary);
+                    trinaryDivision($operand1Trinary, $operand2Trinary);
                 }
                 else if ($ANDBtn.hasClass("active")) {
-                    binaryAND($operand1Binary, $operand2Binary);
+                    trinaryAND($operand1Trinary, $operand2Trinary);
                 }
                 else if ($ORBtn.hasClass("active")) {
-                    binaryOR($operand1Binary, $operand2Binary);
+                    trinaryOR($operand1Trinary, $operand2Trinary);
                 }
                 else if ($XORBtn.hasClass("active")) {
-                    binaryXOR($operand1Binary, $operand2Binary);
+                    trinaryXOR($operand1Trinary, $operand2Trinary);
                 }
             }
 
@@ -222,33 +222,33 @@ var rechner = (function (rechner) {
             // Bitwise Operators - The Buttons right side from the operand
 
             $operand1NOT.button().click(function () {
-                bitwiseNot($operand1Binary);
-                updateAll($operand1Decimal, $operand1Binary, $operand1System, inputEnum.Binary);
+                bitwiseNot($operand1Trinary);
+                updateAll($operand1Decimal, $operand1Trinary, $operand1System, inputEnum.Trinary);
             });
 
             $operand1LEFTSHIFT.button().click(function () {
-                bitwiseLeftShift($operand1Binary);
-                updateAll($operand1Decimal, $operand1Binary, $operand1System, inputEnum.Binary);
+                bitwiseLeftShift($operand1Trinary);
+                updateAll($operand1Decimal, $operand1Trinary, $operand1System, inputEnum.Trinary);
             });
 
             $operand1RIGHTSHIFT.button().click(function () {
-                bitwiseRightShift($operand1Binary);
-                updateAll($operand1Decimal, $operand1Binary, $operand1System, inputEnum.Binary);
+                bitwiseRightShift($operand1Trinary);
+                updateAll($operand1Decimal, $operand1Trinary, $operand1System, inputEnum.Trinary);
             });
 
             $operand2NOT.button().click(function () {
-                bitwiseNot($operand2Binary);
-                updateAll($operand2Decimal, $operand2Binary, $operand2System, inputEnum.Binary);
+                bitwiseNot($operand2Trinary);
+                updateAll($operand2Decimal, $operand2Trinary, $operand2System, inputEnum.Trinary);
             });
 
             $operand2LEFTSHIFT.button().click(function () {
-                bitwiseLeftShift($operand2Binary);
-                updateAll($operand2Decimal, $operand2Binary, $operand2System, inputEnum.Binary);
+                bitwiseLeftShift($operand2Trinary);
+                updateAll($operand2Decimal, $operand2Trinary, $operand2System, inputEnum.Trinary);
             });
 
             $operand2RIGHTSHIFT.button().click(function () {
-                bitwiseRightShift($operand2Binary);
-                updateAll($operand2Decimal, $operand2Binary, $operand2System, inputEnum.Binary);
+                bitwiseRightShift($operand2Trinary);
+                updateAll($operand2Decimal, $operand2Trinary, $operand2System, inputEnum.Trinary);
             });
 
             // Functional Buttons - Buttons Active class
@@ -260,8 +260,8 @@ var rechner = (function (rechner) {
                     var current = document.getElementsByClassName("active");
                     current[0].className = current[0].className.replace(" active", "");
                     this.className += " active";
-                    if ($operand1Binary.val() != "" && $operand2Binary.val() != "") {
-                        updateAll($resultDecimal, $resultBinary, $resultSystem, inputEnum.Binary);
+                    if ($operand1Trinary.val() != "" && $operand2Trinary.val() != "") {
+                        updateAll($resultDecimal, $resultTrinary, $resultSystem, inputEnum.Trinary);
                     }
                 });
             }
@@ -271,30 +271,30 @@ var rechner = (function (rechner) {
 
         function selectChangeListener() {
             $inputGroupSelectBit.on('change', function (e) {
-                updateAll($operand1Decimal, $operand1Binary, $operand1System, inputEnum.Decimal);
-                updateAll($operand2Decimal, $operand2Binary, $operand2System, inputEnum.Decimal);
-                updateAll($resultDecimal, $resultBinary, $resultSystem, inputEnum.Decimal);
+                updateAll($operand1Decimal, $operand1Trinary, $operand1System, inputEnum.Decimal);
+                updateAll($operand2Decimal, $operand2Trinary, $operand2System, inputEnum.Decimal);
+                updateAll($resultDecimal, $resultTrinary, $resultSystem, inputEnum.Decimal);
             });
 
             $inputGroupSelectSystem.on('change', function (e) {
-                updateAll($operand1Decimal, $operand1Binary, $operand1System, inputEnum.Decimal);
-                updateAll($operand2Decimal, $operand2Binary, $operand2System, inputEnum.Decimal);
-                updateAll($resultDecimal, $resultBinary, $resultSystem, inputEnum.Decimal);
+                updateAll($operand1Decimal, $operand1Trinary, $operand1System, inputEnum.Decimal);
+                updateAll($operand2Decimal, $operand2Trinary, $operand2System, inputEnum.Decimal);
+                updateAll($resultDecimal, $resultTrinary, $resultSystem, inputEnum.Decimal);
             });
         }
 
         // logical inputs - input change listener
 
-        function inputChangeListener(decimalInputID, binaryInputID, systemInputID) {
+        function inputChangeListener(decimalInputID, trinaryInputID, systemInputID) {
             decimalInputID.on('input', function () {
                 console.log("test: " + inputEnum.Decimal);
-                updateAll(decimalInputID, binaryInputID, systemInputID, inputEnum.Decimal);
+                updateAll(decimalInputID, trinaryInputID, systemInputID, inputEnum.Decimal);
             });
-            binaryInputID.on('input', function () {
-                updateAll(decimalInputID, binaryInputID, systemInputID, inputEnum.Binary);
+            trinaryInputID.on('input', function () {
+                updateAll(decimalInputID, trinaryInputID, systemInputID, inputEnum.Trinary);
             });
             systemInputID.on('input', function () {
-                updateAll(decimalInputID, binaryInputID, systemInputID, inputEnum.System);
+                updateAll(decimalInputID, trinaryInputID, systemInputID, inputEnum.System);
             });
         }
         
@@ -324,16 +324,16 @@ var rechner = (function (rechner) {
             }
         }
 
-        // logic binary to decimal
+        // logic trinary to decimal
 
-        function binaryToInt(binary) {
-            return parseInt(binary, 2);
+        function trinaryToInt(trinary) {
+            return parseInt(trinary, 2);
         }
 
-        // logic decimal to binary
+        // logic decimal to trinary
 
         // IIFE to scope internal variables
-        var float64ToInt64Binary = (function () {
+        var float64ToInt64Trinary = (function () {
             // create union
             var flt64 = new Float64Array(1)
             var uint16 = new Uint16Array(flt64.buffer)
@@ -342,10 +342,10 @@ var rechner = (function (rechner) {
             // 2**31
             var MAX_INT32 = 2147483648
 
-            function uint16ToBinary() {
+            function uint16ToTrinary() {
                 var bin64 = ''
 
-                // generate padded binary string a word at a time
+                // generate padded trinary string a word at a time
                 for (var word = 0; word < 4; word++) {
                     bin64 = uint16[word].toString(2).padStart(16, 0) + bin64
                 }
@@ -353,7 +353,7 @@ var rechner = (function (rechner) {
                 return bin64
             }
 
-            return function float64ToInt64Binary(number) {
+            return function float64ToInt64Trinary(number) {
                 // NaN would pass through Math.abs(number) > MAX_SAFE
                 if (!(Math.abs(number) <= MAX_SAFE)) {
                     throw new RangeError('Absolute value must be less than 2**53')
@@ -395,8 +395,8 @@ var rechner = (function (rechner) {
                 }
 
                 // only keep integer part of mantissa
-                var bin64 = uint16ToBinary().substr(11, Math.max(exponent, 0))
-                // sign-extend binary string
+                var bin64 = uint16ToTrinary().substr(11, Math.max(exponent, 0))
+                // sign-extend trinary string
                 return bin64.padStart(64, sign)
             }
         })()
@@ -412,13 +412,13 @@ var rechner = (function (rechner) {
         function allClear() {
             
             $operand1Decimal.val('');
-            $operand1Binary.val('');
+            $operand1Trinary.val('');
             $operand1System.val('');
             $operand2Decimal.val('');
-            $operand2Binary.val('');
+            $operand2Trinary.val('');
             $operand2System.val('');
             $resultDecimal.val('');
-            $resultBinary.val('');
+            $resultTrinary.val('');
             $resultSystem.val('');
 
         }
@@ -426,103 +426,103 @@ var rechner = (function (rechner) {
         // Bitwise Operators - The Buttons right side from the operand
         // Not (~) or (!)
 
-        function bitwiseNot(binaryInputID) {
+        function bitwiseNot(trinaryInputID) {
             
-            var binary = binaryInputID.val();
-            var reversedBinary = "";
+            var trinary = trinaryInputID.val();
+            var reversedTrinary = "";
 
-            for (var i = 0; i < binary.length; i++) {
-                if (binary.substr(i, 1) == 0) { // Get Each char and check if it's 0, if true replace it by 1
-                    reversedBinary += "1";
+            for (var i = 0; i < trinary.length; i++) {
+                if (trinary.substr(i, 1) == 0) { // Get Each char and check if it's 0, if true replace it by 1
+                    reversedTrinary += "1";
                 } else {
-                    reversedBinary += "0";
+                    reversedTrinary += "0";
                 }
             }
 
-            binaryInputID.val(reversedBinary);
+            trinaryInputID.val(reversedTrinary);
 
         }
 
         // Left Shift (<<)
-        function bitwiseLeftShift(binaryInputID) {
-            binaryInputID.val(binaryInputID.val().substr(1) + "0");
+        function bitwiseLeftShift(trinaryInputID) {
+            trinaryInputID.val(trinaryInputID.val().substr(1) + "0");
 
         }
 
         // Right Shift (>>)
-        function bitwiseRightShift(binaryInputID) {
-            binaryInputID.val("0" + (binaryInputID.val().slice(0, - 1)));
+        function bitwiseRightShift(trinaryInputID) {
+            trinaryInputID.val("0" + (trinaryInputID.val().slice(0, - 1)));
         }
 
         // Bitwise Operators - The Buttons under the inputs
 
         // Addition (+)
 
-        function binaryAddition(binaryInputID, binaryInputID2) {
-            if ($operand1Binary.val() != "" && $operand2Binary.val() != "") {
+        function trinaryAddition(trinaryInputID, trinaryInputID2) {
+            if ($operand1Trinary.val() != "" && $operand2Trinary.val() != "") {
 
                 // if the Result is higher than the maximum allowed Bits (ex. 2^16 = 65536), give more space for the result
-                if ((binaryToInt(binaryInputID.val()) + binaryToInt(binaryInputID2.val())) > (Math.pow(2, $inputGroupSelectBit.val()) - 1)) {
-                    $resultBinary.val(float64ToInt64Binary(binaryToInt(binaryInputID.val()) + binaryToInt(binaryInputID2.val())).substr(pos_to_neg((Number($inputGroupSelectBit.val()) + Number($inputGroupSelectBit.val())))));
+                if ((trinaryToInt(trinaryInputID.val()) + trinaryToInt(trinaryInputID2.val())) > (Math.pow(2, $inputGroupSelectBit.val()) - 1)) {
+                    $resultTrinary.val(float64ToInt64Trinary(trinaryToInt(trinaryInputID.val()) + trinaryToInt(trinaryInputID2.val())).substr(pos_to_neg((Number($inputGroupSelectBit.val()) + Number($inputGroupSelectBit.val())))));
                 } else {
-                    $resultBinary.val(float64ToInt64Binary(binaryToInt(binaryInputID.val()) + binaryToInt(binaryInputID2.val())).substr(pos_to_neg((Number($inputGroupSelectBit.val())))));
+                    $resultTrinary.val(float64ToInt64Trinary(trinaryToInt(trinaryInputID.val()) + trinaryToInt(trinaryInputID2.val())).substr(pos_to_neg((Number($inputGroupSelectBit.val())))));
                 }
 
-                updateAll($resultDecimal, $resultBinary, $resultSystem, inputEnum.FunctionalButton);
+                updateAll($resultDecimal, $resultTrinary, $resultSystem, inputEnum.FunctionalButton);
             }
         }
 
         // Subtraction (-)
 
-        function binarySubtraction(binaryInputID, binaryInputID2) {
-            if ($operand1Binary.val() != "" && $operand2Binary.val() != "") {
-                $resultBinary.val(float64ToInt64Binary(binaryToInt(binaryInputID.val()) - binaryToInt(binaryInputID2.val())).substr(pos_to_neg($inputGroupSelectBit.val())));
-                updateAll($resultDecimal, $resultBinary, $resultSystem, inputEnum.FunctionalButton);
+        function trinarySubtraction(trinaryInputID, trinaryInputID2) {
+            if ($operand1Trinary.val() != "" && $operand2Trinary.val() != "") {
+                $resultTrinary.val(float64ToInt64Trinary(trinaryToInt(trinaryInputID.val()) - trinaryToInt(trinaryInputID2.val())).substr(pos_to_neg($inputGroupSelectBit.val())));
+                updateAll($resultDecimal, $resultTrinary, $resultSystem, inputEnum.FunctionalButton);
             }
         }
 
         // Multiplication (*)
 
-        function binaryMultiplication(binaryInputID, binaryInputID2) {
-            if ($operand1Binary.val() != "" && $operand2Binary.val() != "") {
+        function trinaryMultiplication(trinaryInputID, trinaryInputID2) {
+            if ($operand1Trinary.val() != "" && $operand2Trinary.val() != "") {
 
                 // if the Result is higher than the maximum allowed Bits (ex. 2^16 = 65536), give more space for the result
-                if ((binaryToInt(binaryInputID.val()) * binaryToInt(binaryInputID2.val())) > (Math.pow(2, $inputGroupSelectBit.val()) - 1)) {
-                    $resultBinary.val(float64ToInt64Binary(binaryToInt(binaryInputID.val()) * binaryToInt(binaryInputID2.val())).substr(pos_to_neg((Number($inputGroupSelectBit.val()) + Number($inputGroupSelectBit.val())))));
+                if ((trinaryToInt(trinaryInputID.val()) * trinaryToInt(trinaryInputID2.val())) > (Math.pow(2, $inputGroupSelectBit.val()) - 1)) {
+                    $resultTrinary.val(float64ToInt64Trinary(trinaryToInt(trinaryInputID.val()) * trinaryToInt(trinaryInputID2.val())).substr(pos_to_neg((Number($inputGroupSelectBit.val()) + Number($inputGroupSelectBit.val())))));
                 } else {
-                    $resultBinary.val(float64ToInt64Binary(binaryToInt(binaryInputID.val()) * binaryToInt(binaryInputID2.val())).substr(pos_to_neg((Number($inputGroupSelectBit.val())))));
+                    $resultTrinary.val(float64ToInt64Trinary(trinaryToInt(trinaryInputID.val()) * trinaryToInt(trinaryInputID2.val())).substr(pos_to_neg((Number($inputGroupSelectBit.val())))));
                 }
 
-                updateAll($resultDecimal, $resultBinary, $resultSystem, inputEnum.FunctionalButton);
+                updateAll($resultDecimal, $resultTrinary, $resultSystem, inputEnum.FunctionalButton);
             }
         }
 
         // Division (/)
 
-        function binaryDivision(binaryInputID, binaryInputID2) {
-            if ($operand1Binary.val() != "" && $operand2Binary.val() != "") {
-                $resultBinary.val(float64ToInt64Binary(binaryToInt(binaryInputID.val()) / binaryToInt(binaryInputID2.val())).substr(pos_to_neg($inputGroupSelectBit.val())));
-                updateAll($resultDecimal, $resultBinary, $resultSystem, inputEnum.FunctionalButton);
+        function trinaryDivision(trinaryInputID, trinaryInputID2) {
+            if ($operand1Trinary.val() != "" && $operand2Trinary.val() != "") {
+                $resultTrinary.val(float64ToInt64Trinary(trinaryToInt(trinaryInputID.val()) / trinaryToInt(trinaryInputID2.val())).substr(pos_to_neg($inputGroupSelectBit.val())));
+                updateAll($resultDecimal, $resultTrinary, $resultSystem, inputEnum.FunctionalButton);
                 $resultDecimal.val($resultDecimal.val());
 
                 // TODO : Fix Error Message on switching the numeral system, when Division is activated.
-                //$resultDecimal.val($resultDecimal.val() + " ,% " + binaryToInt(binaryInputID.val()) % binaryToInt(binaryInputID2.val()));
+                //$resultDecimal.val($resultDecimal.val() + " ,% " + trinaryToInt(trinaryInputID.val()) % trinaryToInt(trinaryInputID2.val()));
             }
         }
 
         // AND (&)
 
-        function binaryAND(binaryInputID, binaryInputID2) {
+        function trinaryAND(trinaryInputID, trinaryInputID2) {
 
-            if ($operand1Binary.val() != "" && $operand2Binary.val() != "") {
+            if ($operand1Trinary.val() != "" && $operand2Trinary.val() != "") {
 
-                var binary = binaryInputID.val();
-                var binary2 = binaryInputID2.val();
+                var trinary = trinaryInputID.val();
+                var trinary2 = trinaryInputID2.val();
                 var binAND = "";
 
-                for (var i = 0; i < binary.length; i++) {
-                    if (binary.substr(i, 1) == 1) { // Get Each char and check if it's 1
-                        if (binary2.substr(i, 1) == 1) { // Get Each char of Binary 2 and check if it's 1, if true replace it by 1
+                for (var i = 0; i < trinary.length; i++) {
+                    if (trinary.substr(i, 1) == 1) { // Get Each char and check if it's 1
+                        if (trinary2.substr(i, 1) == 1) { // Get Each char of Trinary 2 and check if it's 1, if true replace it by 1
                             binAND += "1";
                         } else {
                             binAND += "0";
@@ -532,30 +532,30 @@ var rechner = (function (rechner) {
                     }
                 }
 
-                $resultBinary.val(binAND);
-                updateAll($resultDecimal, $resultBinary, $resultSystem, inputEnum.FunctionalButton);
+                $resultTrinary.val(binAND);
+                updateAll($resultDecimal, $resultTrinary, $resultSystem, inputEnum.FunctionalButton);
             }
         }
 
         // OR (&)
 
-        function binaryOR(binaryInputID, binaryInputID2) {
+        function trinaryOR(trinaryInputID, trinaryInputID2) {
 
-            if ($operand1Binary.val() != "" && $operand2Binary.val() != "") {
+            if ($operand1Trinary.val() != "" && $operand2Trinary.val() != "") {
 
-                var binary = binaryInputID.val();
-                var binary2 = binaryInputID2.val();
+                var trinary = trinaryInputID.val();
+                var trinary2 = trinaryInputID2.val();
                 var binOR = "";
 
-                for (var i = 0; i < binary.length; i++) {
-                    if (binary.substr(i, 1) == 1) { // Get Each char and check if it's 1
-                        if (binary2.substr(i, 1) == 1) { // Get Each char of Binary 2 and check if it's 1, if true replace it by 1
+                for (var i = 0; i < trinary.length; i++) {
+                    if (trinary.substr(i, 1) == 1) { // Get Each char and check if it's 1
+                        if (trinary2.substr(i, 1) == 1) { // Get Each char of Trinary 2 and check if it's 1, if true replace it by 1
                             binOR += "1";
                         } else {
                             binOR += "1";
                         }
                     } else {
-                        if (binary2.substr(i, 1) == 1) { // Get Each char of Binary 2 and check if it's 1, if true replace it by 1
+                        if (trinary2.substr(i, 1) == 1) { // Get Each char of Trinary 2 and check if it's 1, if true replace it by 1
                             binOR += "1";
                         } else {
                             binOR += "0";
@@ -563,31 +563,31 @@ var rechner = (function (rechner) {
                     }
                 }
 
-                $resultBinary.val(binOR);
-                updateAll($resultDecimal, $resultBinary, $resultSystem, inputEnum.FunctionalButton);
+                $resultTrinary.val(binOR);
+                updateAll($resultDecimal, $resultTrinary, $resultSystem, inputEnum.FunctionalButton);
             }
         }
 
         // XOR (^)
 
-        function binaryXOR(binaryInputID, binaryInputID2) {
+        function trinaryXOR(trinaryInputID, trinaryInputID2) {
 
-            if ($operand1Binary.val() != "" && $operand2Binary.val() != "") {
+            if ($operand1Trinary.val() != "" && $operand2Trinary.val() != "") {
 
-                var binary = binaryInputID.val();
-                var binary2 = binaryInputID2.val();
+                var trinary = trinaryInputID.val();
+                var trinary2 = trinaryInputID2.val();
                 var binXOR = "";
 
-                for (var i = 0; i < binary.length; i++) {
-                    if (binary.substr(i, 1) == 1) { // Get Each char and check if it's 1
-                        if (binary2.substr(i, 1) == 1) { // Get Each char of Binary 2 and check if it's 1, if true replace it by 0
+                for (var i = 0; i < trinary.length; i++) {
+                    if (trinary.substr(i, 1) == 1) { // Get Each char and check if it's 1
+                        if (trinary2.substr(i, 1) == 1) { // Get Each char of Trinary 2 and check if it's 1, if true replace it by 0
                             binXOR += "0";
                         } else {
                             binXOR += "1";
                         }
                     } else {
-                        if (binary2.substr(i, 1) == 1) { // Get Each char of Binary 2 and check if it's 1
-                            if (binary.substr(i, 1) == 0) { // Get Each char and check if it's 0, if true replace it by 1
+                        if (trinary2.substr(i, 1) == 1) { // Get Each char of Trinary 2 and check if it's 1
+                            if (trinary.substr(i, 1) == 0) { // Get Each char and check if it's 0, if true replace it by 1
                                 binXOR += "1";
                             }
                         } else {
@@ -596,15 +596,15 @@ var rechner = (function (rechner) {
                     }
                 }
 
-                $resultBinary.val(binXOR);
-                updateAll($resultDecimal, $resultBinary, $resultSystem, inputEnum.FunctionalButton);
+                $resultTrinary.val(binXOR);
+                updateAll($resultDecimal, $resultTrinary, $resultSystem, inputEnum.FunctionalButton);
             }
         }
 
         // Update all fields at the start
-        updateAll($operand1Decimal, $operand1Binary, $operand1System, inputEnum.Decimal);
-        updateAll($operand2Decimal, $operand2Binary, $operand2System, inputEnum.Decimal);
-        updateAll($resultDecimal, $resultBinary, $resultSystem, inputEnum.Decimal);
+        updateAll($operand1Decimal, $operand1Trinary, $operand1System, inputEnum.Decimal);
+        updateAll($operand2Decimal, $operand2Trinary, $operand2System, inputEnum.Decimal);
+        updateAll($resultDecimal, $resultTrinary, $resultSystem, inputEnum.Decimal);
 
         return logic;
 
