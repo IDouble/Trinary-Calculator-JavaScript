@@ -43,6 +43,6 @@ while you're typing, an algorithm already calculates every number you type and d
 
 ## The Calculator allows you to ⛓
 
-- see how Hexdecimal Values are stored in Trinary
+- see how Binary Values are stored in Trinary
 - how much **8, 16, 32 Trit** can store, (ex. unsigned **8-Trit** can store values from **(00000000) 0 ... 6561 (22222222)**)
 - see how other numeral systems are working (**ternary**, **quaternary**, **octal**, **hexdecimal**)
