@@ -172,7 +172,6 @@ var rechner = (function (rechner) {
                 //} else {
                 alert("Error: Only Numbers Between 0 and " + Math.pow(3, $inputGroupSelectBit.val()) + " can be converted to " + $inputGroupSelectBit.val() + "-Trit");
                 //}
-                trinaryInputID.val("");
             }
 
             // Active Functional Button logic
@@ -200,7 +199,6 @@ var rechner = (function (rechner) {
                 }
             }
 
-            console.log("$operand1Decimal input");
         }
 
         // Button Listener
@@ -287,7 +285,6 @@ var rechner = (function (rechner) {
 
         function inputChangeListener(decimalInputID, trinaryInputID, systemInputID) {
             decimalInputID.on('input', function () {
-                console.log("test: " + inputEnum.Decimal);
                 updateAll(decimalInputID, trinaryInputID, systemInputID, inputEnum.Decimal);
             });
             trinaryInputID.on('input', function () {
