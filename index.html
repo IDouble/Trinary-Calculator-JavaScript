@@ -54,13 +54,10 @@
         <script src="js/bootstrap-switch.js"></script>
 
         <script>
-
-        jQuery(document).ready( function($) {
-
             function FilterInput(event) {
                 var keyCode = ('which' in event) ? event.which : event.keyCode;
 
-                isNotWanted = (keyCode == 50 || keyCode == 51 || keyCode == 52 || keyCode == 53 || keyCode == 54 || keyCode == 55 || keyCode == 56 || keyCode == 57 || keyCode == 98 || keyCode == 99 || keyCode == 100 || keyCode == 101 || keyCode == 102 || keyCode == 103 || keyCode == 104 || keyCode == 105 );
+                isNotWanted = (keyCode == 51 || keyCode == 52 || keyCode == 53 || keyCode == 54 || keyCode == 55 || keyCode == 56 || keyCode == 57 || keyCode == 98 || keyCode == 99 || keyCode == 100 || keyCode == 101 || keyCode == 102 || keyCode == 103 || keyCode == 104 || keyCode == 105 );
                 return !isNotWanted;
             };
 
@@ -95,9 +92,6 @@
                 if ( e.which == 38 || e.which == 40 )
                     e.preventDefault();
             });  
-              
-        });
-
         </script>
 
         <!--[if lt IE 9]>
