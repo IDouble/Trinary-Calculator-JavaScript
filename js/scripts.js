@@ -168,9 +168,9 @@ var rechner = (function (rechner) {
             } else {
                 // TODO: Signed Function
                 //if (signed) {
-                //    alert("Error: Only Numbers Between " + pos_to_neg((Math.pow(3, $inputGroupSelectBit.val()) / 2)) + " and " + ((Math.pow(3, $inputGroupSelectBit.val()) / 2 ) - 1) + " can be converted to " + $inputGroupSelectBit.val() + "-Bit");
+                //    alert("Error: Only Numbers Between " + pos_to_neg((Math.pow(3, $inputGroupSelectBit.val()) / 2)) + " and " + ((Math.pow(3, $inputGroupSelectBit.val()) / 2 ) - 1) + " can be converted to " + $inputGroupSelectBit.val() + "-Trit");
                 //} else {
-                alert("Error: Only Numbers Between 0 and " + Math.pow(3, $inputGroupSelectBit.val()) + " can be converted to " + $inputGroupSelectBit.val() + "-Bit");
+                alert("Error: Only Numbers Between 0 and " + Math.pow(3, $inputGroupSelectBit.val()) + " can be converted to " + $inputGroupSelectBit.val() + "-Trit");
                 //}
                 trinaryInputID.val("");
             }
