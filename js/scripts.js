@@ -156,8 +156,6 @@ var rechner = (function (rechner) {
 
         function updateAll(decimalInputID, trinaryInputID, systemInputID, inputType) {
 
-            console.log("input type " + inputType);
-
             if (inputType == inputEnum.Decimal && (decimalInputID.val() < Math.pow(3, $inputGroupSelectBit.val()))) {
                 trinaryInputID.val(float64ToInt64Trinary(decimalInputID.val()).substr(pos_to_neg($inputGroupSelectBit.val())));
                 systemInputID.val(intToSystem(decimalInputID.val()));
