@@ -71,6 +71,7 @@ var rechner = (function (rechner) {
         var $mulBtn = $('#mulBtn');
         var $divBtn = $('#divBtn');
 
+        var $CNOTBtn = $('#CNOTBtn');
         var $ANDBtn = $('#ANDBtn');
         var $ORBtn = $('#ORBtn');
         var $XORBtn = $('#XORBtn');
@@ -187,6 +188,9 @@ var rechner = (function (rechner) {
                 }
                 else if ($divBtn.hasClass("active")) {
                     trinaryDivision($operand1Trinary, $operand2Trinary);
+                }
+                else if ($CNOTBtn.hasClass("active")) {
+                    trinaryCNOT($operand1Trinary, $operand2Trinary);
                 }
                 else if ($ANDBtn.hasClass("active")) {
                     trinaryAND($operand1Trinary, $operand2Trinary);
@@ -504,6 +508,33 @@ var rechner = (function (rechner) {
 
                 // TODO : Fix Error Message on switching the numeral system, when Division is activated.
                 //$resultDecimal.val($resultDecimal.val() + " ,% " + trinaryToInt(trinaryInputID.val()) % trinaryToInt(trinaryInputID2.val()));
+            }
+        }
+
+        // CNOT (&)
+
+        function trinaryCNOT(trinaryInputID, trinaryInputID2) {
+
+            if ($operand1Trinary.val() != "" && $operand2Trinary.val() != "") {
+
+                var trinary = trinaryInputID.val();
+                var trinary2 = trinaryInputID2.val();
+                var binAND = "";
+
+                for (var i = 0; i < trinary.length; i++) {
+                    if (trinary.substr(i, 1) == 1) { // Get Each char and check if it's 1
+                        if (trinary2.substr(i, 1) == 1) { // Get Each char of Trinary 2 and check if it's 1, if true replace it by 1
+                            binAND += "1";
+                        } else {
+                            binAND += "0";
+                        }
+                    } else {
+                        binAND += "0";
+                    }
+                }
+
+                $resultTrinary.val(binAND);
+                updateAll($resultDecimal, $resultTrinary, $resultSystem, inputEnum.FunctionalButton);
             }
         }
 
