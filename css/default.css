@@ -597,3 +597,8 @@ input[type="number"] {
 .optionButtonsContainer label{
 	margin-bottom:0px !important;
 }
+
+.checkbox{
+	margin-top:8px;
+	line-height:110%;
+}
