@@ -28,6 +28,7 @@ var rechner = (function (rechner) {
         var $SignedUnsignedSwitch = $('#switch-SignedUnsigned');
         var $ACButton = $('#ACButton');
         var $inputGroupSelectSystem = $('#inputGroupSelectSystem');
+        var $checkboxBalanced = $('#checkboxBalanced');
         
         // Input Group - Operand 1
 
@@ -128,6 +129,18 @@ var rechner = (function (rechner) {
                 }
             });
 
+            $('#checkboxBalanced').click(function(){
+			    if($(this).is(':checked')){
+			        $operand1Trinary.val(convertToBalancedTernary($operand1Trinary.val()));
+			        $operand2Trinary.val(convertToBalancedTernary($operand2Trinary.val()));
+			        $resultTrinary.val(convertToBalancedTernary($resultTrinary.val()));
+			    } else {
+			        $operand1Trinary.val(convertFromBalancedTernary($operand1Trinary.val()));
+			        $operand2Trinary.val(convertFromBalancedTernary($operand2Trinary.val()));
+			        $resultTrinary.val(convertFromBalancedTernary($resultTrinary.val()));
+			    }
+			});
+
         }
 
         Init();
@@ -153,19 +166,61 @@ var rechner = (function (rechner) {
             })(jQuery);
         }
 
+        function convertToBalancedTernary(value){
+
+        	var ternaryValue = "";
+
+            for (var i = 0; i < value.length; i++) {
+                if (value.substr(i, 1) == 0) { // Get Each char and check if it's 0
+                    ternaryValue += "-";
+                } else if (value.substr(i, 1) == 1) { // Get Each char and check if it's 1
+                    ternaryValue += "0";
+                } else if (value.substr(i, 1) == 2) { // Get Each char and check if it's 2
+                    ternaryValue += "+";
+                }
+            }
+
+            return ternaryValue;
+        }
+
+        function convertFromBalancedTernary(value){
+
+        	var ternaryValue = "";
+
+            for (var i = 0; i < value.length; i++) {
+                if (value.substr(i, 1) == "-") { // Get Each char and check if it's -
+                    ternaryValue += "0";
+                } else if (value.substr(i, 1) == 0) { // Get Each char and check if it's 0
+                    ternaryValue += "1";
+                } else if (value.substr(i, 1) == "+") { // Get Each char and check if it's +
+                    ternaryValue += "2";
+                }
+            }
+
+            return ternaryValue;
+        }
+
+        function handleCheckboxBalanced(value){
+        	if(($checkboxBalanced).is(':checked')) {
+				return convertToBalancedTernary(value);
+			}else{
+				return value;
+			}
+        }
+
         // logical logic
 
         function updateAll(decimalInputID, trinaryInputID, systemInputID, inputType) {
 
             if (inputType == inputEnum.Decimal && (decimalInputID.val() < Math.pow(3, $inputGroupSelectBit.val()))) {
-                trinaryInputID.val(float64ToInt64Trinary(decimalInputID.val()).substr(pos_to_neg($inputGroupSelectBit.val())));
+				trinaryInputID.val(handleCheckboxBalanced(float64ToInt64Trinary(decimalInputID.val()).substr(pos_to_neg($inputGroupSelectBit.val()))));
                 systemInputID.val(intToSystem(decimalInputID.val()));
             } else if (inputType == inputEnum.Trinary || inputType == inputEnum.FunctionalButton) {
-                decimalInputID.val(trinaryToInt(trinaryInputID.val()));
+                decimalInputID.val(trinaryToInt(handleResultCheckboxBalanced(trinaryInputID.val())));
                 systemInputID.val(intToSystem(decimalInputID.val()));
             } else if (inputType == inputEnum.System) {
                 decimalInputID.val(systemToInt(systemInputID.val()));
-                trinaryInputID.val(float64ToInt64Trinary(systemToInt(systemInputID.val())).substr(pos_to_neg($inputGroupSelectBit.val())));
+				trinaryInputID.val(handleCheckboxBalanced(float64ToInt64Trinary(systemToInt(systemInputID.val())).substr(pos_to_neg($inputGroupSelectBit.val()))));
             } else {
                 // TODO: Signed Function
                 //if (signed) {
@@ -357,6 +412,7 @@ var rechner = (function (rechner) {
             return function float64ToInt64Trinary(number) {
                 // NaN would pass through Math.abs(number) > MAX_SAFE
                 if (!(Math.abs(number) <= MAX_SAFE)) {
+                	float64ToInt64Trinary(handleResultCheckboxBalanced(number));
                     throw new RangeError('Absolute value must be less than 2**53')
                 }
 
@@ -457,16 +513,28 @@ var rechner = (function (rechner) {
 
         // Bitwise Operators - The Buttons under the inputs
 
+        function handleResultCheckboxBalanced(value){
+        	if(($checkboxBalanced).is(':checked')) {
+				return convertFromBalancedTernary(value);
+			}else{
+				return value;
+			}
+        }
+
         // Addition (+)
 
         function trinaryAddition(trinaryInputID, trinaryInputID2) {
             if ($operand1Trinary.val() != "" && $operand2Trinary.val() != "") {
-
                 // if the Result is higher than the maximum allowed Bits (ex. 2^16 = 65536), give more space for the result
                 if ((trinaryToInt(trinaryInputID.val()) + trinaryToInt(trinaryInputID2.val())) > (Math.pow(3, $inputGroupSelectBit.val()) - 1)) {
-                    $resultTrinary.val(float64ToInt64Trinary(trinaryToInt(trinaryInputID.val()) + trinaryToInt(trinaryInputID2.val())).substr(pos_to_neg((Number($inputGroupSelectBit.val()) + Number($inputGroupSelectBit.val())))));
+                	var tInput1 = handleResultCheckboxBalanced(trinaryInputID.val());
+                	var tInput2 = handleResultCheckboxBalanced(trinaryInputID2.val());
+                    $resultTrinary.val(handleCheckboxBalanced(float64ToInt64Trinary(trinaryToInt(tInput1) + trinaryToInt(tInput2)).substr(pos_to_neg((Number($inputGroupSelectBit.val()) + Number($inputGroupSelectBit.val()))))));
                 } else {
-                    $resultTrinary.val(float64ToInt64Trinary(trinaryToInt(trinaryInputID.val()) + trinaryToInt(trinaryInputID2.val())).substr(pos_to_neg((Number($inputGroupSelectBit.val())))));
+                	var tInput1 = handleResultCheckboxBalanced(trinaryInputID.val());
+                	var tInput2 = handleResultCheckboxBalanced(trinaryInputID2.val());
+
+                    $resultTrinary.val(handleCheckboxBalanced(float64ToInt64Trinary(trinaryToInt(tInput1) + trinaryToInt(tInput2)).substr(pos_to_neg((Number($inputGroupSelectBit.val()))))));
                 }
 
                 updateAll($resultDecimal, $resultTrinary, $resultSystem, inputEnum.FunctionalButton);
@@ -477,7 +545,9 @@ var rechner = (function (rechner) {
 
         function trinarySubtraction(trinaryInputID, trinaryInputID2) {
             if ($operand1Trinary.val() != "" && $operand2Trinary.val() != "") {
-                $resultTrinary.val(float64ToInt64Trinary(trinaryToInt(trinaryInputID.val()) - trinaryToInt(trinaryInputID2.val())).substr(pos_to_neg($inputGroupSelectBit.val())));
+            	var tInput1 = handleResultCheckboxBalanced(trinaryInputID.val());
+                var tInput2 = handleResultCheckboxBalanced(trinaryInputID2.val());
+                $resultTrinary.val(handleCheckboxBalanced(float64ToInt64Trinary(trinaryToInt(tInput1) - trinaryToInt(tInput2)).substr(pos_to_neg($inputGroupSelectBit.val()))));
                 updateAll($resultDecimal, $resultTrinary, $resultSystem, inputEnum.FunctionalButton);
             }
         }
@@ -489,9 +559,13 @@ var rechner = (function (rechner) {
 
                 // if the Result is higher than the maximum allowed Bits (ex. 2^16 = 65536), give more space for the result
                 if ((trinaryToInt(trinaryInputID.val()) * trinaryToInt(trinaryInputID2.val())) > (Math.pow(3, $inputGroupSelectBit.val()) - 1)) {
-                    $resultTrinary.val(float64ToInt64Trinary(trinaryToInt(trinaryInputID.val()) * trinaryToInt(trinaryInputID2.val())).substr(pos_to_neg((Number($inputGroupSelectBit.val()) + Number($inputGroupSelectBit.val())))));
+                	var tInput1 = handleResultCheckboxBalanced(trinaryInputID.val());
+                	var tInput2 = handleResultCheckboxBalanced(trinaryInputID2.val());
+                    $resultTrinary.val(handleCheckboxBalanced(float64ToInt64Trinary(trinaryToInt(tInput1) * trinaryToInt(tInput2)).substr(pos_to_neg((Number($inputGroupSelectBit.val()) + Number($inputGroupSelectBit.val()))))));
                 } else {
-                    $resultTrinary.val(float64ToInt64Trinary(trinaryToInt(trinaryInputID.val()) * trinaryToInt(trinaryInputID2.val())).substr(pos_to_neg((Number($inputGroupSelectBit.val())))));
+                	var tInput1 = handleResultCheckboxBalanced(trinaryInputID.val());
+                	var tInput2 = handleResultCheckboxBalanced(trinaryInputID2.val());
+                    $resultTrinary.val(handleCheckboxBalanced(float64ToInt64Trinary(trinaryToInt(tInput1) * trinaryToInt(tInput2)).substr(pos_to_neg((Number($inputGroupSelectBit.val()))))));
                 }
 
                 updateAll($resultDecimal, $resultTrinary, $resultSystem, inputEnum.FunctionalButton);
@@ -502,7 +576,9 @@ var rechner = (function (rechner) {
 
         function trinaryDivision(trinaryInputID, trinaryInputID2) {
             if ($operand1Trinary.val() != "" && $operand2Trinary.val() != "") {
-                $resultTrinary.val(float64ToInt64Trinary(trinaryToInt(trinaryInputID.val()) / trinaryToInt(trinaryInputID2.val())).substr(pos_to_neg($inputGroupSelectBit.val())));
+            	var tInput1 = handleResultCheckboxBalanced(trinaryInputID.val());
+                var tInput2 = handleResultCheckboxBalanced(trinaryInputID2.val());
+                $resultTrinary.val(handleCheckboxBalanced(float64ToInt64Trinary(trinaryToInt(tInput1) / trinaryToInt(tInput2)).substr(pos_to_neg($inputGroupSelectBit.val()))));
                 updateAll($resultDecimal, $resultTrinary, $resultSystem, inputEnum.FunctionalButton);
                 $resultDecimal.val($resultDecimal.val());
 
@@ -511,7 +587,7 @@ var rechner = (function (rechner) {
             }
         }
 
-        // CNOT (&)
+        // CNOT
 
         function trinaryCNOT(trinaryInputID, trinaryInputID2) {
 
