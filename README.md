@@ -48,4 +48,4 @@ while you're typing, an algorithm already calculates every number you type and d
 - calculate with **balanced Ternary (-,0,+)** or **Trinary (0,1,2)** 0️⃣1️⃣2️⃣ 
 - see how Binary Values are stored in Trinary
 - how much **8, 16, 32, 64, 3, 6, 9, 21, 27, 81 Trit** can store, (ex. unsigned **8-Trit** can store values from **(00000000) 0 ... 6561 (22222222)**)
-- see how other numeral systems are working (**ternary**, **quaternary**, **octal**, **hexdecimal**)
+- see how other numeral systems are working (**ternary**, **quaternary**, **octal**, **hexadecimal**)
