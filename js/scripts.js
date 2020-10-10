@@ -121,7 +121,7 @@ var rechner = (function (rechner) {
                     return;
                 }
                 // Ensure that it is a number and stop the keypress
-                if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 49)) && (e.keyCode < 96 || e.keyCode > 97)) {
+                if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 50)) && (e.keyCode < 96 || e.keyCode > 97) ) {
                     e.preventDefault();
                 }
             });
