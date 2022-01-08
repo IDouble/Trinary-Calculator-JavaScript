@@ -2,7 +2,6 @@
 
 **Link** : **[https://ayidouble.github.io/Trinary-Calculator-JavaScript](https://ayidouble.github.io/Trinary-Calculator-JavaScript)**</br>
 **Mobile App** : **[https://github.com/AYIDouble/Trinary-Calculator-Android-Java-App](https://github.com/AYIDouble/Trinary-Calculator-Android-Java-App)**</br>
-**Official Google Play Store Download Link** : **[https://play.google.com/store/apps/details?id=com.trinarycalculator.ayidouble.trinarycalculator.app](https://play.google.com/store/apps/details?id=com.trinarycalculator.ayidouble.trinarycalculator.app)**
 
 📱 A handy **Calculator** for Trinary operations, that works on **all devices** 📱 💻 🖥
 
@@ -27,7 +26,7 @@ The Reason why I build this **Calculator** was, because there wasn't a good one 
 - ***[Desktop](https://ayidouble.github.io/Trinary-Calculator-JavaScript) (Chrome, Firefox, Edge, Safari) 🖥***
 
 
-## [📱 FREE Download Google Play Store: 📱](https://play.google.com/store/apps/details?id=com.trinarycalculator.ayidouble.trinarycalculator.app)
+## [📱 FREE Download Google Play Store: 📱](https://ayidouble.github.io/Trinary-Calculator-JavaScript)
 ![Free Google Play Store Trinary Calculator Addition Subtraction Multiplication Division NOT AND OR XOR Mobile (Smartphone)](Images/Trinary-Calculator-Google-Play.png)
 
 ## Trinary Operations ➕ ➖ ➗ ✖️
