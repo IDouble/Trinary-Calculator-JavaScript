@@ -2,7 +2,6 @@
 
 **Link** : **[https://ayidouble.github.io/Trinary-Calculator-JavaScript](https://ayidouble.github.io/Trinary-Calculator-JavaScript)**</br>
 **Mobile App** : **[https://github.com/AYIDouble/Trinary-Calculator-Android-Java-App](https://github.com/AYIDouble/Trinary-Calculator-Android-Java-App)**</br>
-**Official Google Play Store Download Link** : **[https://play.google.com/store/apps/details?id=com.trinarycalculator.ayidouble.trinarycalculator.app](https://play.google.com/store/apps/details?id=com.trinarycalculator.ayidouble.trinarycalculator.app)**
 
 📱 A handy **Calculator** for Trinary operations, that works on **all devices** 📱 💻 🖥
 
